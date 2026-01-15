@@ -1,6 +1,16 @@
-site_name: 我的MkDocs网站
+site_name: 刘凯的个人网站
 theme:
   name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+    - search.highlight
+markdown_extensions:
+  - nl2br
 nav:
   - 首页: index.md
   - 关于: about.md
+  - 博客:
+    - 2026 年 AI 泡沫: blogs/ai-bubble-2026.md
+  - 笔记:
+    - 如何用 MkDocs 构建网站: notes/how-to-build-websites-with-mkdocs.md
