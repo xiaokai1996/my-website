@@ -1,239 +1,241 @@
-# 如何用 MkDocs 搭建网站
+# 简单用MkDocs搞个网站
 
-⸻
+## step 1. ⚙️ 配置MkDocs环境
+```bash
+# 1. 创建虚拟环境
+python3 -m venv venv
 
-阶段 0：理解 MkDocs 和静态网站
+# 2. 激活虚拟环境
+source venv/bin/activate   # macOS/Linux
+# venv\Scripts\activate    # Windows
 
-背景知识：
-	•	MkDocs 是一个 静态站点生成器（Static Site Generator，简称 SSG）。
-	•	它的原理是：你写 Markdown 文件 → MkDocs 根据主题模板生成 HTML/CSS/JS 文件 → 可以直接部署到网站（无需服务器渲染）。
-	•	Markdown 是一种轻量标记语言，你写的文章看起来像普通文本，但可以加标题、列表、链接、图片等。
+# 3. 安装 MkDocs + Material + 扩展
+pip install mkdocs mkdocs-material pymdown-extensions
 
-所以你的思路是：
-	1.	写内容 → Markdown
-	2.	配置网站 → mkdocs.yml
-	3.	生成网站 → mkdocs build
-	4.	部署 → GitHub Pages 或其他静态服务器
-
-⸻
-
-阶段 1：准备环境
-
-1. 安装 Python
-
-MkDocs 是用 Python 写的，所以你需要 Python 环境。
-	•	推荐版本：Python 3.9+
-	•	检查是否已安装：
-
-python --version
-# 或者
-python3 --version
-
-如果显示版本号 ≥ 3.9 就可以。
-	•	Windows 用户可以去 Python 官网￼ 安装，并勾选 “Add Python to PATH”。
-
-⸻
-
-2. 安装 MkDocs
-
-命令：
-
-pip install mkdocs
-
-背景知识：pip 是 Python 的包管理器，用它可以安装 Python 写的软件包。MkDocs 就是一个 Python 包。
-
-安装完成后可以检查版本：
-
-mkdocs --version
-
-
-⸻
-
-3. 安装主题（可选但推荐）
-	•	MkDocs 默认主题比较简洁，但很多人用 Material for MkDocs，现代感强，功能丰富（搜索、代码高亮、导航栏等）。
-
-安装：
-
-pip install mkdocs-material
-
-背景知识：主题就是 MkDocs 用来把 Markdown 转换成 HTML/CSS/JS 的模板，不同主题页面风格不一样。
-
-⸻
-
-阶段 2：创建网站
-
-1. 初始化项目
-
+# 4. 运行
+mkdocs serve
+```
+## step 2. 📝 创建项目结构和配置
+```bash
+# 1. 初始化项目，自动生成一个空的目录结构+mkdocs.yml配置文件
 mkdocs new mysite
+# mysite/
+# ├── docs/
+# │   └── index.md
+# └── mkdocs.yml
 
-	•	这会创建一个名为 mysite 的文件夹，里面有：
-	•	mkdocs.yml → 网站配置文件
-	•	docs/ → 放 Markdown 文件的目录（网站内容都在这里）
-
-目录结构示例：
-
-mysite/
-├── docs/
-│   └── index.md
-└── mkdocs.yml
-
-背景知识：
-	•	index.md 是网站首页。
-	•	mkdocs.yml 控制网站标题、导航栏、主题、插件等。
-
-⸻
-
-2. 预览网站
-
-进入项目目录：
-
+# 2. 预览空网站
 cd mysite
-
-启动本地服务器：
-
 mkdocs serve
 
-	•	打开浏览器访问 http://127.0.0.1:8000/
-	•	你会看到一个默认的 MkDocs 网站
-	•	好处：你可以实时预览修改内容，无需每次生成 HTML
-
-背景知识：serve 命令会启动一个临时的本地服务器，把生成的 HTML 渲染出来，这样你可以在浏览器里看到效果。
-
-⸻
-
-3. 修改网站内容
-	•	编辑 docs/index.md：
-
-# 欢迎来到我的网站
-
-这是我的第一个 MkDocs 网站。
-
-## 第二个标题
-内容可以加列表：
-- 项目 1
-- 项目 2
-
-	•	添加更多页面：
-	•	创建 docs/about.md
-
-# 关于我
-
-这是我的介绍页面。
-
-	•	配置导航栏，在 mkdocs.yml 中：
-
-site_name: 我的MkDocs网站
-theme:
-  name: material
-nav:
-  - 首页: index.md
-  - 关于: about.md
+# 3. 配置md和导航栏
+```
 
 背景知识：
-	•	nav 控制导航菜单顺序
-	•	Markdown 文件路径对应网站 URL，index.md 默认是 / 首页
 
-⸻
+- index.md 是网站首页。
+- mkdocs.yml 控制网站标题、导航栏、主题、插件等。
 
-阶段 3：生成静态网站
-	•	当你修改完内容和配置后，可以生成静态文件：
-
-mkdocs build
-
-	•	生成目录：site/
-	•	里面包含最终的 HTML、CSS、JS 文件
-	•	这些文件可以直接上传到服务器，用户访问就能看到网站
-
-背景知识：
-	•	静态网站不需要数据库和后台，直接用浏览器就能打开 HTML 文件
-
-	•	你也可以直接本地预览：
-
-mkdocs serve
-
-
-⸻
-
-阶段 4：部署到 GitHub Pages
-
-1. 创建 GitHub 仓库
-	•	登录 GitHub￼
-	•	新建仓库，例如 mydocs
-	•	仓库名可以和本地文件夹一样，也可以不同
-
-⸻
-
-2. 初始化 Git 并上传代码
-
-git init
-git add .
-git commit -m "初始化 MkDocs 网站"
-git branch -M main
-git remote add origin https://github.com/用户名/mydocs.git
-git push -u origin main
-
-背景知识：
-	•	Git 是版本管理工具
-	•	GitHub 是远程托管仓库
-	•	push 是把本地代码上传到 GitHub
-
-⸻
-
-3. 使用 MkDocs GitHub 部署插件
-	•	安装插件：
-
-pip install mkdocs-git-revision-date-localized-plugin
-
-	•	直接部署到 GitHub Pages：
-
-mkdocs gh-deploy
-
-说明：
-	•	gh-deploy 会自动：
-	1.	生成静态文件到 site/
-	2.	创建一个 gh-pages 分支（GitHub Pages 默认分支）
-	3.	上传到远程仓库
-	•	之后你就可以访问：
-
-https://用户名.github.io/mydocs/
-
-
-⸻
-
-4. 小技巧
-	•	如果修改内容，直接：
-
-mkdocs gh-deploy
-
-就会自动更新网站，无需重复创建仓库。
-	•	如果使用 Material 主题，可以在 mkdocs.yml 加一些高级配置：
-
+```yaml
+site_name: 刘凯的个人网站
 theme:
   name: material
   features:
     - navigation.tabs
     - navigation.top
     - search.highlight
+markdown_extensions:
+  - nl2br
+nav:
+  - 首页: index.md
+  - 关于: about.md
+  - 博客:
+    - 2026 年 AI 泡沫: blogs/ai-bubble-2026.md
+  - 笔记:
+    - 如何用 MkDocs 构建网站: notes/how-to-build-websites-with-mkdocs.md
+```
 
-这些会增加标签页导航、顶部导航和搜索高亮功能。
+## step 3. 💻 修改md预览网站
+```bash
+mkdocs serve	# 本机8000端口预览
+mkdocs build	# 生成静态网页，这一步其实没啥用！mkdocs gh-deploy会自动包含这一步
+```
+## step 4. 🖇️ 部署到GitHub Pages
+```bash
+# 1. 先把本地的git目录提交到远端
+git init
+git add .
+git commit -m "初始化 MkDocs 网站"
+git branch -M main
+# git@github.com:xiaokai1996/my-website.git
+git remote add origin https://github.com/xiaokai1996/my-website.git
+git push -u origin main
 
-⸻
+# 2. 安装mkdocs github部署插件
+pip install mkdocs-git-revision-date-localized-plugin
 
-✅ 阶段 5：网站维护思路
-	1.	所有内容都在 docs/ → Markdown 文件
-	2.	配置在 mkdocs.yml → 网站信息、导航栏、主题、插件
-	3.	本地预览用：
-
-mkdocs serve
-
-	4.	部署更新用：
-
+# 3. 然后把md渲染成静态文件自动触发github的流水线
 mkdocs gh-deploy
+```
 
-这样你就有了 完整的静态网站流程：写内容 → 本地预览 → 配置 → 部署到 GitHub Pages
+为啥mkdocs gh-deploy可以一键部署呢？因为他会自动帮你做3件事情：
 
-⸻
+1. 把md渲染成静态文件，放到site文件夹下
+2. 创建一个gh-pages分支
+3. 把gh-pages分支推送到远程仓库
 
-如果你愿意，我可以帮你直接写一个 示例项目结构 + mkdocs.yml 配置文件 + Material 主题示例，你拷贝就能跑起来。
+## 常见的工作流
 
-你希望我帮你直接写吗？
+1. 随手写一个md文件，改一下配置：`mkdocs.yml`
+2. 信心满满在本机 [预览](http://127.0.0.1:8000/)：`mkdocs server`
+3. 好像差点意思，先存个档明天再搞：`git add . && git commit -m "update" && git push`
+4. 非常棒了，一键发布 ：`mkdocs gh-deploy`
+5. 欢迎访问 [我的网站](https://xiaokai1996.github.io/my-website/)
+
+## FAQ
+
+### 编译的静态文件是否要提交？
+
+不需要提交，如果不小心提交了，可以使用下面这种方法删除，然后新建一个.gitignore文件把/site文件夹加进去
+```bash
+git rm -r --cached site
+git commit -m "删除 site"
+git push
+```
+### 如何新增目录？
+每个md都会生成一个网页
+nav决定了网站的目录结构，在mkdocs.yml中新增对应的目录架构就行
+```sql
+docs/
+├── guide/
+│   ├── install.md
+│   └── usage.md
+├── tutorials/
+│   ├── tutorial1.md
+│   └── tutorial2.md
+nav:
+  - 首页: index.md
+  - 指南:
+      - 安装: guide/install.md
+      - 使用: guide/usage.md
+  - 教程:
+      - 教程1: tutorials/tutorial1.md
+      - 教程2: tutorials/tutorial2.md
+```
+
+### 🙋如何把实现单个换行符换行？
+github中默认是双换行符=真正的换行，单个换行符=字符串连接。
+但可以通过插件实现
+``` yaml
+site_name: 我的MkDocs网站
+theme:
+  name: material
+markdown_extensions:
+  - nl2br  # 让单回车换行生效
+nav:
+  - 首页: index.md
+```
+
+### 如何上传图片并设置格式、标题字体美化？
+使用这种相对写法，可以直接显示图片，开启pymdownx的扩展插件，就可以实现
+```md
+![hello](../assets/images/image-0001.png){ width=200px }
+![hello](../assets/images/image-0001.png){ width=50% }
+![hello](../assets/images/image-0001.png){ .my-img }
+![hello](../assets/images/image-0001.png){ .center-image width=200px }
+```
+
+还可以在doc目录下配置`docs/stylesheets/extra.css`，配置一些常用的格式，注意格式可以叠加！
+```css
+.my-img {
+  width: 200px;
+  height: auto;
+}
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+```
+
+最终配置如下，重点是`pymdownx.extra`和`stylesheets/extra.css`
+``` yaml
+site_name: 刘凯的个人网站
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+    - search.highlight
+markdown_extensions:
+  - nl2br                # 支持单换行符转换为真正的换行符
+  - admonition          # 支持提示框（注意、警告等）
+  - codehilite          # 代码高亮
+  - toc                 # 生成目录
+  - pymdownx.arithmatex # 数学公式
+  - pymdownx.betterem   # 改善斜体/加粗语法
+  - pymdownx.caret      # 支持上标 ^text^
+  - pymdownx.emoji      # 支持 :smile: 表情
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink  # 自动识别 URL 并生成链接
+  - pymdownx.mark       # 高亮文字
+  - pymdownx.smartsymbols
+  - pymdownx.tasklist   # 支持任务列表
+  - pymdownx.tilde      # 支持下标 ~text~
+  - pymdownx.extra       # 额外的 Markdown 扩展
+extra_css:
+  - stylesheets/extra.css
+nav:
+  - 首页: index.md
+  - 关于: about.md
+  - 博客:
+    - 2026 年 AI 泡沫: blogs/ai-bubble-2026.md
+  - 笔记:
+    - 如何用 MkDocs 构建网站: notes/how-to-build-websites-with-mkdocs.md
+```
+
+其中`stylesheets/extra.css`主要是用来配置标题字体、图片格式等。
+
+```css
+/* 全局标题加粗（推荐） */
+.md-typeset h1 {
+  font-weight: 700;
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+}
+
+.md-typeset h3 {
+  font-weight: 600;
+}
+
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  font-weight: 500;
+}
+
+/* 中文友好字体 */
+.md-typeset {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Source Han Sans SC",
+    sans-serif;
+}
+
+.my-img {
+  width: 200px;
+  height: auto;
+}
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+```

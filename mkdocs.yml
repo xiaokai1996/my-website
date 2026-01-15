@@ -6,7 +6,23 @@ theme:
     - navigation.top
     - search.highlight
 markdown_extensions:
-  - nl2br
+  - nl2br                # 支持单换行符转换为真正的换行符
+  - admonition          # 支持提示框（注意、警告等）
+  - codehilite          # 代码高亮
+  - toc                 # 生成目录
+  - pymdownx.arithmatex # 数学公式
+  - pymdownx.betterem   # 改善斜体/加粗语法
+  - pymdownx.caret      # 支持上标 ^text^
+  - pymdownx.emoji      # 支持 :smile: 表情
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink  # 自动识别 URL 并生成链接
+  - pymdownx.mark       # 高亮文字
+  - pymdownx.smartsymbols
+  - pymdownx.tasklist   # 支持任务列表
+  - pymdownx.tilde      # 支持下标 ~text~
+  - pymdownx.extra       # 额外的 Markdown 扩展
+extra_css:
+  - stylesheets/extra.css
 nav:
   - 首页: index.md
   - 关于: about.md
