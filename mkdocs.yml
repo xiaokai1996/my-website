@@ -1,0 +1,6 @@
+site_name: 我的MkDocs网站
+theme:
+  name: material
+nav:
+  - 首页: index.md
+  - 关于: about.md
